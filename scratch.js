@@ -63,6 +63,148 @@
 
 
 
+// if (excelHeading) {
+//   var regex = new RegExp(excelHeading, 'gi');
+//   // fields being queried by
+//   var fieldsToSearchBy = Object.keys(requestGroups[0]);
+//   var filteredRes = new Array();
+//   var filteredIds = new Array();
+//   requestGroups.forEach(function (res) {
+//     fieldsToSearchBy.forEach(function (field) {
+//       if (filteredIds.includes(res._id)) {
+//         return;
+//       }
+//       if (res[field] && res[field] !== null && (res[field]).toString().match(regex)) {
+//         filteredRes.push(res);
+//         filteredIds.push(res._id);
+//       }
+//       return;
+//     })
+//   })
+//   requestGroups = filteredRes;
+// }
+
+
+
+// Original
+// (function () {
+//   var mappedHeadings = originalData.items.map(function (heading) {
+//     var getGroup = function (groupName) {
+//       if (changedData.item.group.schemaName === groupName) {
+//         return changedData.to.schemaName;
+//       }
+//       return groupName;
+//     }
+//     return {
+//       "name": heading.name,
+//       "group": getGroup(heading.group.schemaName)
+//     }
+//   })
+
+//   return {
+//     "mappedHeadings": mappedHeadings
+//   };
+// }())
+
+
+////old winner
+// (function () {
+//   var clonedExcelData = JSON.parse(JSON.stringify(excelData));
+//   var getMappedData = clonedExcelData.map(function (data) {
+//     mappedHeadings.mappedHeadings.forEach(function (obj) {
+//       // console.log(obj.group)
+//       if (obj.group !== obj.name) {
+//         console.log('!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!')
+//         console.log(obj.group + ' !== ' + obj.name);
+//         data[obj.group] = data[obj.name];
+//         console.log('++++ added ', obj.group)
+//         delete data[obj.name];
+//         console.log('>>>> deleted ', obj.name)
+
+//         // if (data[obj.name] === data[obj.group]) {
+//         //   delete data[obj.name];
+//         //   console.log('>>>> deleted ', obj.name)
+//         // }
+//       }
+//     })
+//     return data;
+//   })
+//   console.log('mapped Data ', getMappedData)
+//   return getMappedData
+// }())
+
+
+
+
+// (function () {
+//   var clonedExcelData = JSON.parse(JSON.stringify(excelData));
+//   var getMappedData = clonedExcelData.map(function (data) {
+//     mappedHeadings.mappedHeadings.forEach(function (obj) {
+//       // console.log(obj.group)
+//       if (obj.group !== obj.name) {
+//         console.log('!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!')
+//         console.log(obj.group + ' !== ' + obj.name);
+
+//         if (!data[obj.group]) {
+//           data[obj.group] = data[obj.name];
+//           console.log('++++ added ', obj.group)
+//         } else {
+//           data[obj.group] = data[obj.name];
+//           console.log('~~~~ edited ', obj.group)
+//         }
+
+//         if (obj.name === 'phone')
+
+//           if (obj.name === 'county')
+//             // if (data[obj.name] && data[obj.name] === data[obj.group]) {
+//             delete data[obj.name];
+//         console.log('>>>> deleted ', obj.name)
+//         // }
+
+//         // if (data[obj.name] === data[obj.group]) {
+//         //   delete data[obj.name];
+//         //   console.log('>>>> deleted ', obj.name)
+//         // }
+//       }
+//     })
+//     return data;
+//   })
+//   console.log('mapped Data ', getMappedData)
+//   return getMappedData
+// }())
+
+
+
+
+
+
+// (function () {
+//   var getMappedData = excelData.map(function (data) {
+//     function lol(param) {
+//       return new Promise(function (resolve, reject) {
+//         var requiredLength = mappedHeadings.mappedHeadings.length;
+//         mappedHeadings.mappedHeadings.forEach(function (obj, index) {
+//           data[obj.group] = data[obj.name];
+//           delete data[obj.name];
+//           if (index === requiredLength - 1) {
+//             resolve(data);
+//           }
+//         })
+//       })
+//     }
+
+//     lol(data).then(function (err, res) {
+//       console.log('res', res);
+//       return res;
+//     })
+
+//   })
+//   return {
+//     "data": getMappedData
+//   }
+// }())
+
+
 (function () {
   var excelHeadingsWithGroups = excelHeadings.map(function (heading) {
     var matchGroup = function (excelHeading) {
@@ -83,50 +225,6 @@
     "groups": chivvySchema
   };
 }())
-
-
-  // if (excelHeading) {
-  //   var regex = new RegExp(excelHeading, 'gi');
-  //   // fields being queried by
-  //   var fieldsToSearchBy = Object.keys(requestGroups[0]);
-  //   var filteredRes = new Array();
-  //   var filteredIds = new Array();
-  //   requestGroups.forEach(function (res) {
-  //     fieldsToSearchBy.forEach(function (field) {
-  //       if (filteredIds.includes(res._id)) {
-  //         return;
-  //       }
-  //       if (res[field] && res[field] !== null && (res[field]).toString().match(regex)) {
-  //         filteredRes.push(res);
-  //         filteredIds.push(res._id);
-  //       }
-  //       return;
-  //     })
-  //   })
-  //   requestGroups = filteredRes;
-  // }
-
-
-
-  // Original
-  // (function () {
-  //   var mappedHeadings = originalData.items.map(function (heading) {
-  //     var getGroup = function (groupName) {
-  //       if (changedData.item.group.schemaName === groupName) {
-  //         return changedData.to.schemaName;
-  //       }
-  //       return groupName;
-  //     }
-  //     return {
-  //       "name": heading.name,
-  //       "group": getGroup(heading.group.schemaName)
-  //     }
-  //   })
-
-  //   return {
-  //     "mappedHeadings": mappedHeadings
-  //   };
-  // }())
 
   // Funciton to fire when toAdd event is activated
   (function () {
@@ -156,99 +254,16 @@
   }())
 
 
-  ////old winner
-  // (function () {
-  //   var clonedExcelData = JSON.parse(JSON.stringify(excelData));
-  //   var getMappedData = clonedExcelData.map(function (data) {
-  //     mappedHeadings.mappedHeadings.forEach(function (obj) {
-  //       // console.log(obj.group)
-  //       if (obj.group !== obj.name) {
-  //         console.log('!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!')
-  //         console.log(obj.group + ' !== ' + obj.name);
-  //         data[obj.group] = data[obj.name];
-  //         console.log('++++ added ', obj.group)
-  //         delete data[obj.name];
-  //         console.log('>>>> deleted ', obj.name)
-
-  //         // if (data[obj.name] === data[obj.group]) {
-  //         //   delete data[obj.name];
-  //         //   console.log('>>>> deleted ', obj.name)
-  //         // }
-  //       }
-  //     })
-  //     return data;
-  //   })
-  //   console.log('mapped Data ', getMappedData)
-  //   return getMappedData
-  // }())
-
-
-
-
   // winner, winner chicken dinner
   (function () {
     var clonedExcelData = JSON.parse(JSON.stringify(excelData));
     var getMappedData = clonedExcelData.map(function (data) {
+      var newObj = {};
       mappedHeadings.mappedHeadings.forEach(function (obj) {
-        // console.log(obj.group)
-        if (obj.group !== obj.name) {
-          console.log('!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!')
-          console.log(obj.group + ' !== ' + obj.name);
-
-          if (!data[obj.group]) {
-            data[obj.group] = data[obj.name];
-            console.log('++++ added ', obj.group)
-          }
-
-          if (data[obj.group]) {
-            data[obj.group] = data[obj.name];
-            console.log('~~~~ edited ', obj.group)
-          }
-
-          if (data[obj.name] && data[obj.name] === data[obj.group]) {
-            delete data[obj.name];
-            console.log('>>>> deleted ', obj.name)
-          }
-
-          // if (data[obj.name] === data[obj.group]) {
-          //   delete data[obj.name];
-          //   console.log('>>>> deleted ', obj.name)
-          // }
-        }
+        newObj[obj.group] = data[obj.name];
       })
-      return data;
+      return newObj;
     })
     console.log('mapped Data ', getMappedData)
     return getMappedData
-  }())
-
-
-
-
-
-
-  (function () {
-    var getMappedData = excelData.map(function (data) {
-      function lol(param) {
-        return new Promise(function (resolve, reject) {
-          var requiredLength = mappedHeadings.mappedHeadings.length;
-          mappedHeadings.mappedHeadings.forEach(function (obj, index) {
-            data[obj.group] = data[obj.name];
-            delete data[obj.name];
-            if (index === requiredLength - 1) {
-              resolve(data);
-            }
-          })
-        })
-      }
-
-      lol(data).then(function (err, res) {
-        console.log('res', res);
-        return res;
-      })
-
-    })
-    return {
-      "data": getMappedData
-    }
   }())
