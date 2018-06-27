@@ -157,30 +157,33 @@
 
 
   ////old winner
-  (function () {
-    var clonedExcelData = JSON.parse(JSON.stringify(excelData));
-    var getMappedData = clonedExcelData.map(function (data) {
-      mappedHeadings.mappedHeadings.forEach(function (obj) {
-        // console.log(obj.group)
-        if (obj.group !== obj.name) {
-          console.log('!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!')
-          console.log(obj.group + ' !== ' + obj.name);
-          data[obj.group] = data[obj.name];
-          console.log('++++ added ', obj.group)
-          delete data[obj.name];
-          console.log('>>>> deleted ', obj.name)
+  // (function () {
+  //   var clonedExcelData = JSON.parse(JSON.stringify(excelData));
+  //   var getMappedData = clonedExcelData.map(function (data) {
+  //     mappedHeadings.mappedHeadings.forEach(function (obj) {
+  //       // console.log(obj.group)
+  //       if (obj.group !== obj.name) {
+  //         console.log('!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!')
+  //         console.log(obj.group + ' !== ' + obj.name);
+  //         data[obj.group] = data[obj.name];
+  //         console.log('++++ added ', obj.group)
+  //         delete data[obj.name];
+  //         console.log('>>>> deleted ', obj.name)
 
-          // if (data[obj.name] === data[obj.group]) {
-          //   delete data[obj.name];
-          //   console.log('>>>> deleted ', obj.name)
-          // }
-        }
-      })
-      return data;
-    })
-    console.log('mapped Data ', getMappedData)
-    return getMappedData
-  }())
+  //         // if (data[obj.name] === data[obj.group]) {
+  //         //   delete data[obj.name];
+  //         //   console.log('>>>> deleted ', obj.name)
+  //         // }
+  //       }
+  //     })
+  //     return data;
+  //   })
+  //   console.log('mapped Data ', getMappedData)
+  //   return getMappedData
+  // }())
+
+
+
 
   // winner, winner chicken dinner
   (function () {
