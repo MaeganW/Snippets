@@ -205,28 +205,51 @@
 // }())
 
 
-(function () {
-  var excelHeadingsWithGroups = excelHeadings.map(function (heading) {
-    var matchGroup = function (excelHeading) {
-      var initialCharacters = excelHeading.substring(0, 2);
-      return chivvySchema.find(function (group) {
-        return group.schemaName.match(initialCharacters);
-      });
-    }
+
+// Initial headings for Excel spreadsheet
+[
+  "city",
+  "first_name",
+  "last_name",
+  "company",
+  "address",
+  "county",
+  "state",
+  "zip",
+  "phone_1",
+  "phone_2",
+  "email",
+  "web"
+]
+
+
+  // Original Function for matching schema & headings
+  (function () {
+    var excelHeadingsWithGroups = excelHeadings.map(function (heading) {
+      var matchGroup = function (excelHeading) {
+        var initialCharacters = excelHeading.substring(0, 3);
+        return chivvySchema.find(function (group) {
+          if (group.schemaName.match(initialCharacters)) {
+            return group.schemaName.match(initialCharacters);
+          }
+          return 'city'
+        });
+      }
+
+      return {
+        "name": heading.name,
+        "group": matchGroup(heading.name)
+      }
+    })
 
     return {
-      "name": heading.name,
-      "group": matchGroup(heading.name)
-    }
-  })
+      "items": excelHeadingsWithGroups,
+      "groups": chivvySchema
+    };
+  }())
 
-  return {
-    "items": excelHeadingsWithGroups,
-    "groups": chivvySchema
-  };
-}())
 
-  // Funciton to fire when toAdd event is activated
+  // Funciton to fire when toAdd event is activated - creates mapped headings
   (function () {
     var dataToChange;
     if (!newData || newData.mappedHeadings.length === 0) {
@@ -267,6 +290,7 @@
     console.log('mapped Data ', getMappedData)
     return getMappedData
   }())
+
 
   // button toggle visibilty
   (function () {
