@@ -205,7 +205,6 @@
 // }())
 
 
-
 // Initial headings for Excel spreadsheet
 [
   "city",
@@ -249,6 +248,55 @@
   }())
 
 
+// New Schema
+[
+  "venue_state",
+  "event_date",
+  "venue_city",
+  "event_id",
+  "venue_start_time",
+  "venue_end_time",
+  "title",
+  "description",
+  "venue_name",
+  "venue_address",
+  "venue_zip",
+  "url_logo",
+  "url"
+]
+
+
+  // New Function for matching schema & headings
+  (function () {
+    var excelHeadingsWithGroups = excelHeadings.map(function (heading) {
+      var matchGroup = function (excelHeading) {
+        var initialCharacters = excelHeading.substring(0, 7);
+        var foundGroup = chivvySchema.find(function (group) {
+          return group.schemaName.match(initialCharacters);
+        });
+        if (foundGroup && foundGroup !== null) {
+          console.log('gate 2 foundGroup', foundGroup);
+          return foundGroup;
+        } else {
+          return {
+            schemaName: 'title'
+          };
+        }
+      }
+
+      return {
+        "name": heading.name,
+        "group": matchGroup(heading.name)
+      }
+    })
+
+    return {
+      "items": excelHeadingsWithGroups,
+      "groups": chivvySchema
+    };
+  }())
+
+
   // Funciton to fire when toAdd event is activated - creates mapped headings
   (function () {
     var dataToChange;
@@ -259,7 +307,7 @@
     }
     var mappedHeadings = dataToChange.map(function (heading) {
       var getGroup = function (groupName) {
-        if (changedData.item.name === heading.name) {
+        if (changedData && changedData.item.name === heading.name) {
           return changedData.to.schemaName;
         }
         return groupName;
@@ -277,13 +325,32 @@
   }())
 
 
-  // winner, winner chicken dinner
+  // Also good chicken dinner, but below doesn't overwrite props
   (function () {
     var clonedExcelData = JSON.parse(JSON.stringify(excelData));
     var getMappedData = clonedExcelData.map(function (data) {
       var newObj = {};
       mappedHeadings.mappedHeadings.forEach(function (obj) {
         newObj[obj.group] = data[obj.name];
+      })
+      return newObj;
+    })
+    console.log('mapped Data ', getMappedData)
+    return getMappedData
+  }())
+
+
+  // winner, winner chicken dinner
+  (function () {
+    var clonedExcelData = JSON.parse(JSON.stringify(excelData));
+    var getMappedData = clonedExcelData.map(function (data) {
+      var newObj = {};
+      mappedHeadings.mappedHeadings.forEach(function (obj) {
+        if (!newObj[obj.group]) {
+          newObj[obj.group] = data[obj.name];
+        } else {
+          newObj[obj.group] = [...newObj[obj.group], data[obj.name]];
+        }
       })
       return newObj;
     })
