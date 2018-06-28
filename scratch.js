@@ -270,10 +270,7 @@
 
   // button toggle visibilty
   (function () {
-    console.log('expression ran')
     var button = document.getElementById("map_button");
-    console.log('button el', button)
-    console.log('button style', button.style)
     button.style.display = "block";
 
     return x0;
