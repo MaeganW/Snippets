@@ -326,30 +326,54 @@
 
 
   // Also good chicken dinner, but below doesn't overwrite props
-  (function () {
-    var clonedExcelData = JSON.parse(JSON.stringify(excelData));
-    var getMappedData = clonedExcelData.map(function (data) {
-      var newObj = {};
-      mappedHeadings.mappedHeadings.forEach(function (obj) {
-        newObj[obj.group] = data[obj.name];
-      })
-      return newObj;
-    })
-    console.log('mapped Data ', getMappedData)
-    return getMappedData
-  }())
+  // (function () {
+  //   var clonedExcelData = JSON.parse(JSON.stringify(excelData));
+  //   var getMappedData = clonedExcelData.map(function (data) {
+  //     var newObj = {};
+  //     mappedHeadings.mappedHeadings.forEach(function (obj) {
+  //       newObj[obj.group] = data[obj.name];
+  //     })
+  //     return newObj;
+  //   })
+  //   console.log('mapped Data ', getMappedData)
+  //   return getMappedData
+  // }())
+
+
+  // Hmmm... problem with ...
+  // (function () {
+  //   var getMappedData = excelData.map(function (data) {
+  //     var newObj = {};
+  //     mappedHeadings.mappedHeadings.forEach(function (obj) {
+  //       if (!newObj[obj.group]) {
+  //         newObj[obj.group] = data[obj.name].toString();
+  //       } else {
+  //         newObj[obj.group] = [...newObj[obj.group], data[obj.name]];
+  //       }
+  //     })
+  //     return newObj;
+  //   })
+  //   console.log('mapped Data ', getMappedData)
+  //   return getMappedData
+  // }())
 
 
   // winner, winner chicken dinner
   (function () {
-    var clonedExcelData = JSON.parse(JSON.stringify(excelData));
-    var getMappedData = clonedExcelData.map(function (data) {
+    var getMappedData = excelData.map(function (data) {
       var newObj = {};
       mappedHeadings.mappedHeadings.forEach(function (obj) {
         if (!newObj[obj.group]) {
           newObj[obj.group] = data[obj.name];
         } else {
-          newObj[obj.group] = [...newObj[obj.group], data[obj.name]];
+          if (newObj[obj.group].constructor === Array) {
+            newObj[obj.group].push(data[obj.name])
+          } else {
+            var existingData = newObj[obj.group];
+            newObj[obj.group] = [];
+            newObj[obj.group].push(existingData);
+            newObj[obj.group].push(data[obj.name])
+          }
         }
       })
       return newObj;
@@ -363,6 +387,15 @@
   (function () {
     var button = document.getElementById("map_button");
     button.style.display = "block";
+
+    return x0;
+  }())
+
+
+  // show me table value
+  (function () {
+    var table = document.getElementById("table");
+    console.log('table element', table)
 
     return x0;
   }())
