@@ -297,14 +297,16 @@
   }())
 
 
+  // Gate 6
   // Funciton to fire when toAdd event is activated - creates mapped headings
   (function () {
     var dataToChange;
-    if (!newData || newData.mappedHeadings.length === 0) {
+    if (!newData || newData === null) {
       dataToChange = originalData.items;
     } else {
       dataToChange = newData.mappedHeadings;
     }
+    console.log('data to change = ', dataToChange);
     var mappedHeadings = dataToChange.map(function (heading) {
       var getGroup = function (groupName) {
         if (changedData && changedData.item.name === heading.name) {
