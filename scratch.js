@@ -297,11 +297,58 @@
   }())
 
 
-  // Gate 6
+  // old Gate 6
+  // (function () {
+  //   var dataToChange;
+  //   var excelTimeStamp = timeOf('originalData');
+  //   console.log('time stamp = ', excelTimeStamp);
+  //   if (timeStamp === null) {
+  //     timeStamp = excelTimeStamp;
+  //   }
+  //   if (timeStamp && timeStamp !== excelTimeStamp) {
+  //     newData = null;
+  //     changedData = null;
+  //   }
+  //   if (!newData || newData.mappedHeadings.length === 0) {
+  //     dataToChange = originalData.items;
+  //   } else {
+  //     dataToChange = newData.mappedHeadings;
+  //   }
+  //   console.log('data to change = ', dataToChange);
+  //   var mappedHeadings = dataToChange.map(function (heading) {
+  //     var getGroup = function (groupName) {
+  //       if (changedData && changedData.item.name === heading.name) {
+  //         return changedData.to.schemaName;
+  //       }
+  //       return groupName;
+  //     }
+  //     return {
+  //       "name": heading.name,
+  //       "group": (!newData) ? getGroup(heading.group.schemaName) : getGroup(heading.group)
+  //     }
+  //   })
+
+  //   console.log("mappedHeadings ", mappedHeadings)
+  //   return {
+  //     "mappedHeadings": mappedHeadings
+  //   };
+  // }())
+
+  // Gate 6 - new
   // Funciton to fire when toAdd event is activated - creates mapped headings
   (function () {
     var dataToChange;
-    if (!newData || newData === null) {
+    var timeStamp;
+    var excelTimeStamp = timeOf('originalData');
+    console.log('time stamp = ', excelTimeStamp);
+    if (!newData) {
+      timeStamp = excelTimeStamp;
+    }
+    if (newData && newData.timeStamp && excelTimeStamp !== NaN && newData.timeStamp !== excelTimeStamp) {
+      newData = null;
+      changedData = null;
+    }
+    if (!newData || newData.mappedHeadings.length === 0) {
       dataToChange = originalData.items;
     } else {
       dataToChange = newData.mappedHeadings;
@@ -322,7 +369,8 @@
 
     console.log("mappedHeadings ", mappedHeadings)
     return {
-      "mappedHeadings": mappedHeadings
+      "mappedHeadings": mappedHeadings,
+      "timeStamp": timeStamp
     };
   }())
 
