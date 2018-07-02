@@ -536,5 +536,16 @@
 
   // new merge gate specifically to cast all incoming values into strings
   (function () {
-    x0
+    var cleanData = [];
+    data.forEach(function (row) {
+      var columnNames = Object.keys(row);
+      var areAllColumnsEmpty = columnNames.every(function (column) {
+        return row[column] === ""
+      });
+      if (areAllColumnsEmpty) {
+        return;
+      }
+      cleanData.push(row);
+    })
+    return cleanData;
   }())
