@@ -334,6 +334,57 @@
   //   };
   // }())
 
+
+
+
+
+  ///////
+  // (function () {
+  //   var dataToChange;
+  //   var savedTimeStamp;
+  //   var currentTimeStamp = timeOf('originalData');
+  //   console.log('time stamp = ', currentTimeStamp);
+  //   if (!newData || newData.mappedHeadings.length === 0) {
+  //     dataToChange = originalData.items;
+  //     savedTimeStamp = currentTimeStamp;
+  //   } else {
+  //     dataToChange = newData.mappedHeadings;
+  //     savedTimeStamp = newData.timeStamp;
+  //     console.log('once more time stamp = ', currentTimeStamp);
+  //     if (currentTimeStamp === NaN) {
+  //       console.log('this does not make sense');
+  //     }
+  //     if (newData.timeStamp && currentTimeStamp && newData.timeStamp !== currentTimeStamp) {
+  //       changedData = null;
+  //       newData = null;
+  //       dataToChange = originalData.items;
+  //       console.log('changedData and newData should be null', changedData);
+  //       console.log('dataToChange should be originalData', originalData.itmes);
+  //     }
+  //   }
+  //   var mappedHeadings = dataToChange.map(function (heading) {
+  //     var getGroup = function (groupName) {
+  //       if (changedData && changedData.item.name === heading.name) {
+  //         return changedData.to.schemaName;
+  //       }
+  //       return groupName;
+  //     }
+  //     return {
+  //       "name": heading.name,
+  //       "group": (!newData) ? getGroup(heading.group.schemaName) : getGroup(heading.group)
+  //     }
+  //   })
+
+  //   console.log("mappedHeadings ", mappedHeadings)
+  //   return {
+  //     "mappedHeadings": mappedHeadings,
+  //     "timeStamp": (savedTimeStamp || newData.timeStamp) ? savedTimeStamp : null
+  //   };
+  // }())
+
+
+
+
   // Gate 6 - new
   // Funciton to fire when toAdd event is activated - creates mapped headings
   (function () {
@@ -362,6 +413,9 @@
     }
     var mappedHeadings = dataToChange.map(function (heading) {
       var getGroup = function (groupName) {
+        if (newData && newData.timeStamp && currentTimeStamp && newData.timeStamp !== currentTimeStamp) {
+          return groupName;
+        }
         if (changedData && changedData.item.name === heading.name) {
           return changedData.to.schemaName;
         }
@@ -369,7 +423,7 @@
       }
       return {
         "name": heading.name,
-        "group": (!newData) ? getGroup(heading.group.schemaName) : getGroup(heading.group)
+        "group": (!newData || (newData && newData.timeStamp && currentTimeStamp && newData.timeStamp !== currentTimeStamp)) ? getGroup(heading.group.schemaName) : getGroup(heading.group)
       }
     })
 
