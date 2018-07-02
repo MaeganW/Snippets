@@ -338,22 +338,28 @@
   // Funciton to fire when toAdd event is activated - creates mapped headings
   (function () {
     var dataToChange;
-    var timeStamp;
-    var excelTimeStamp = timeOf('originalData');
-    console.log('time stamp = ', excelTimeStamp);
-    if (!newData) {
-      timeStamp = excelTimeStamp;
-    }
-    if (newData && newData.timeStamp && excelTimeStamp !== NaN && newData.timeStamp !== excelTimeStamp) {
-      newData = null;
-      changedData = null;
-    }
+    var savedTimeStamp;
+    var currentTimeStamp = timeOf('originalData');
+    console.log('time stamp = ', currentTimeStamp);
     if (!newData || newData.mappedHeadings.length === 0) {
       dataToChange = originalData.items;
+      savedTimeStamp = currentTimeStamp;
     } else {
       dataToChange = newData.mappedHeadings;
+      savedTimeStamp = newData.timeStamp;
+      console.log('once more time stamp = ', currentTimeStamp);
+      if (currentTimeStamp === NaN) {
+        console.log('this does not make sense');
+      }
+      if (newData.timeStamp && currentTimeStamp && newData.timeStamp !== currentTimeStamp) {
+        changedData = null;
+        newData = null;
+        dataToChange = originalData.items;
+        savedTimeStamp = currentTimeStamp;
+        console.log('changedData and newData should be null', changedData);
+        console.log('dataToChange should be originalData', dataToChange);
+      }
     }
-    console.log('data to change = ', dataToChange);
     var mappedHeadings = dataToChange.map(function (heading) {
       var getGroup = function (groupName) {
         if (changedData && changedData.item.name === heading.name) {
@@ -370,7 +376,7 @@
     console.log("mappedHeadings ", mappedHeadings)
     return {
       "mappedHeadings": mappedHeadings,
-      "timeStamp": timeStamp
+      "timeStamp": (savedTimeStamp || newData.timeStamp) ? savedTimeStamp : null
     };
   }())
 
