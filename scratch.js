@@ -266,7 +266,7 @@
 ]
 
 
-  // New Function for matching schema & headings
+  // New Function for matching schema & headings - merge gate 2
   (function () {
     var excelHeadingsWithGroups = excelHeadings.map(function (heading) {
       var matchGroup = function (excelHeading) {
@@ -275,7 +275,6 @@
           return group.schemaName.match(initialCharacters);
         });
         if (foundGroup && foundGroup !== null) {
-          console.log('gate 2 foundGroup', foundGroup);
           return foundGroup;
         } else {
           return {
@@ -391,24 +390,19 @@
     var dataToChange;
     var savedTimeStamp;
     var currentTimeStamp = timeOf('originalData');
-    console.log('time stamp = ', currentTimeStamp);
     if (!newData || newData.mappedHeadings.length === 0) {
       dataToChange = originalData.items;
       savedTimeStamp = currentTimeStamp;
     } else {
       dataToChange = newData.mappedHeadings;
       savedTimeStamp = newData.timeStamp;
-      console.log('once more time stamp = ', currentTimeStamp);
       if (currentTimeStamp === NaN) {
-        console.log('this does not make sense');
       }
       if (newData.timeStamp && currentTimeStamp && newData.timeStamp !== currentTimeStamp) {
         changedData = null;
         newData = null;
         dataToChange = originalData.items;
         savedTimeStamp = currentTimeStamp;
-        console.log('changedData and newData should be null', changedData);
-        console.log('dataToChange should be originalData', dataToChange);
       }
     }
     var mappedHeadings = dataToChange.map(function (heading) {
@@ -493,6 +487,33 @@
   }())
 
 
+
+  // winner, winner chicken dinner
+  (function () {
+    var getMappedData = excelData.map(function (data) {
+      var newObj = {};
+      mappedHeadings.mappedHeadings.forEach(function (obj) {
+        if (!newObj[obj.group]) {
+          newObj[obj.group] = data[obj.name];
+        } else {
+          if (newObj[obj.group].constructor === Array) {
+            newObj[obj.group].push(data[obj.name])
+          } else {
+            var existingData = newObj[obj.group];
+            newObj[obj.group] = [];
+            newObj[obj.group].push(existingData);
+            newObj[obj.group].push(data[obj.name]);
+          }
+        }
+      })
+      return newObj;
+    })
+    console.log('mapped Data ', getMappedData)
+    return getMappedData
+  }())
+
+
+
   // button toggle visibilty
   (function () {
     var button = document.getElementById("map_button");
@@ -508,4 +529,12 @@
     console.log('table element', table)
 
     return x0;
+  }())
+
+
+
+
+  // new merge gate specifically to cast all incoming values into strings
+  (function () {
+    x0
   }())
