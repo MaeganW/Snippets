@@ -336,7 +336,7 @@
         } else {
           return {
             schemaName: 'title',
-            required: false
+            required: true
           };
         }
       }
