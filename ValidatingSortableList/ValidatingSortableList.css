@@ -1,0 +1,75 @@
+@import "https://fonts.googleapis.com/css?family=Roboto:400,100,100italic,300,300italic,400italic,500,500italic,700,700italic,900,900italic&subset=latin,cyrillic";
+
+.multi-list-sort *,
+.multi-list-sort *:after,
+.multi-list-sort *:before {
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+}
+
+.multi-list-sort {
+  font-family: 'RobotoDraft', 'Roboto', 'Helvetica Neue, Helvetica, Arial', sans-serif;
+  font-style: normal;
+  font-weight: 300;
+  color: #212121;
+  background-color: #FFF;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+}
+
+.multi-list-sort .multi-list-container {
+  display: flex;
+  margin-bottom: 2em;
+  background-color: #ffffff;
+  font-size: 14px;
+  border-spacing: 0px 1px;
+}
+
+.multi-list-sort .multi-list-container .bucket {
+  flex: 1;
+  margin: 0.5rem;
+  padding: 0.5rem;
+
+  display: flex;
+  flex-direction: column;
+
+  -webkit-box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.12), 0 1px 2px 0 rgba(0, 0, 0, 0.24);
+  -moz-box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.12), 0 1px 2px 0 rgba(0, 0, 0, 0.24);
+  box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.12), 0 1px 2px 0 rgba(0, 0, 0, 0.24);
+}
+
+.multi-list-sort .multi-list-container .bucket .bucket-header {
+  flex: 0;
+	font-weight: 400;
+  color: #757575;
+  text-align: center;
+  vertical-align: bottom;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.12);
+  margin-bottom: 1rem;
+}
+
+.multi-list-sort .multi-list-container .bucket .bucket-items {
+  flex: 1;
+}
+
+.multi-list-sort .multi-list-container .bucket .item {
+  margin: 0.5rem;
+  padding: 0.5rem;
+  cursor: move;
+
+  -webkit-box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.12), 0 1px 2px 0 rgba(0, 0, 0, 0.24);
+  -moz-box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.12), 0 1px 2px 0 rgba(0, 0, 0, 0.24);
+  box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.12), 0 1px 2px 0 rgba(0, 0, 0, 0.24);
+}
+
+.multi-list-sort .multi-list-container .bucket .item * {
+  pointer-events: none;
+}
+
+#astrix {
+  color: red;
+  font-weight: bold;
+  font-size: 22px;
+}
