@@ -266,6 +266,63 @@
 ]
 
 
+// New Schema with Validation
+[
+  {
+    "schemaName": "venue_state",
+    "required": false
+  },
+  {
+    "schemaName": "event_date",
+    "required": true
+  },
+  {
+    "schemaName": "venue_city",
+    "required": false
+  },
+  {
+    "schemaName": "event_id",
+    "required": false
+  },
+  {
+    "schemaName": "venue_start_time",
+    "required": false
+  },
+  {
+    "schemaName": "venue_end_time",
+    "required": false
+  },
+  {
+    "schemaName": "title",
+    "required": true
+  },
+  {
+    "schemaName": "description",
+    "required": true
+  },
+  {
+    "schemaName": "venue_name",
+    "required": false
+  },
+  {
+    "schemaName": "venue_address",
+    "required": true
+  },
+  {
+    "schemaName": "venue_zip",
+    "required": false
+  },
+  {
+    "schemaName": "url_logo",
+    "required": false
+  },
+  {
+    "schemaName": "url",
+    "required": true
+  }
+]
+
+
   // New Function for matching schema & headings - merge gate 2
   (function () {
     var excelHeadingsWithGroups = excelHeadings.map(function (heading) {
