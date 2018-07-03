@@ -335,7 +335,8 @@
           return foundGroup;
         } else {
           return {
-            schemaName: 'title'
+            schemaName: 'title',
+            required: false
           };
         }
       }
