@@ -21,5 +21,5 @@
         })
       })
     }
-    return getValidationStatus();
+    return !getValidationStatus();
   }())
