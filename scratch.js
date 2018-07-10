@@ -607,3 +607,8 @@
     })
     return cleanData;
   }())
+
+
+
+
+  // adding necessary properties to the objects in the array
