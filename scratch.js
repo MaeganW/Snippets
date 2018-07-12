@@ -612,3 +612,60 @@
 
 
   // adding necessary properties to the objects in the array
+  (function () {
+    return data.map(function (event) {
+      event.source = 'Upload';
+      event.source_event_id = event.event_id;
+      event.venue_lat = null;
+      event.venue_lon = null;
+      event.time_start = null;
+      event.time_end = null;
+      return event;
+    })
+  }())
+
+
+
+  // converting addresses to geolocation data
+  (function () {
+    return data.map(function (event) {
+      var encodedAddress;
+      if (event.venue_address.constructor !== Array) {
+        encodedAddress = encodeURI(event.venue_address)
+      } else {
+        encodedAddress = event.venue_address.map(function (address) {
+          encodedAddress = encodeURI(address);
+        })
+      }
+
+      fetch(url + address, {
+        method: 'get'
+      }).then(function (geo) {
+        var successLatLng = {};
+        successLatLng.lat = geo.results[0].geometry.location.lat;
+        successLatLng.lng = geo.results[0].geometry.location.lng;
+        return successLatLng;
+      }).catch(function (err) {
+        var errorLatLng = {};
+        errorLatLng.lat = 'N/A';
+        errorLatLng.lng = 'N/A';
+        return errorLatLng;
+      });
+
+      // function getGeocodedAddress(address){
+      //   return new Promise(function(resolve, reject){
+      //     var url = 'https://maps.googleapis.com/maps/api/geocode/json?address=';
+
+      //   })
+      // }
+    })
+  }())
+
+
+
+  // extracting address
+  // (function () {
+  //   return data.map(function (event) {
+  //     return event.venue_address;
+  //   })
+  // })
