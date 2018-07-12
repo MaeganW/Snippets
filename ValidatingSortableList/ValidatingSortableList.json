@@ -1,0 +1,119 @@
+{
+  "name": "ValidatingSortableList",
+  "main": "script.js",
+  "tags": [
+    "Multiple",
+    "list",
+    "column",
+    "sort",
+    "drag",
+    "drop",
+    "sortable",
+    "validating"
+  ],
+  "image": "https://s3.amazonaws.com/content.exaptive.com/images/components/multi+select+list.png",
+  "description": "Allows you to drag and drop elements between lists",
+  "domain": "jsdom",
+  "layout": "html",
+  "layoutSpec": {
+    "element": "div",
+    "attributes": {
+      "class": "multi-list-sort"
+    },
+    "innerHtml": "<div class=\"multi-list-container\">\n</div>",
+    "css": "@import \"https://fonts.googleapis.com/css?family=Roboto:400,100,100italic,300,300italic,400italic,500,500italic,700,700italic,900,900italic&subset=latin,cyrillic\";\n\n.multi-list-sort *,\n.multi-list-sort *:after,\n.multi-list-sort *:before {\n  -webkit-box-sizing: border-box;\n  -moz-box-sizing: border-box;\n  box-sizing: border-box;\n}\n\n.multi-list-sort {\n  font-family: 'RobotoDraft', 'Roboto', 'Helvetica Neue, Helvetica, Arial', sans-serif;\n  font-style: normal;\n  font-weight: 300;\n  color: #212121;\n  background-color: #FFF;\n  -webkit-font-smoothing: antialiased;\n  -moz-osx-font-smoothing: grayscale;\n  text-rendering: optimizeLegibility;\n}\n\n.multi-list-sort .multi-list-container {\n  display: flex;\n  margin-bottom: 2em;\n  background-color: #ffffff;\n  font-size: 14px;\n  border-spacing: 0px 1px;\n}\n\n.multi-list-sort .multi-list-container .bucket {\n  flex: 1;\n  margin: 0.5rem;\n  padding: 0.5rem;\n\n  display: flex;\n  flex-direction: column;\n\n  -webkit-box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.12), 0 1px 2px 0 rgba(0, 0, 0, 0.24);\n  -moz-box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.12), 0 1px 2px 0 rgba(0, 0, 0, 0.24);\n  box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.12), 0 1px 2px 0 rgba(0, 0, 0, 0.24);\n}\n\n.multi-list-sort .multi-list-container .bucket .bucket-header {\n  flex: 0;\n\tfont-weight: 400;\n  color: #757575;\n  text-align: center;\n  vertical-align: bottom;\n  border-bottom: 1px solid rgba(0, 0, 0, 0.12);\n  margin-bottom: 1rem;\n}\n\n.multi-list-sort .multi-list-container .bucket .bucket-items {\n  flex: 1;\n}\n\n.multi-list-sort .multi-list-container .bucket .item {\n  margin: 0.5rem;\n  padding: 0.5rem;\n  cursor: move;\n\n  -webkit-box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.12), 0 1px 2px 0 rgba(0, 0, 0, 0.24);\n  -moz-box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.12), 0 1px 2px 0 rgba(0, 0, 0, 0.24);\n  box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.12), 0 1px 2px 0 rgba(0, 0, 0, 0.24);\n}\n\n.multi-list-sort .multi-list-container .bucket .item * {\n  pointer-events: none;\n}\n\n#astrix {\n  color: #E8128B;\n  font-weight: bold;\n  font-size: 22px;\n}"
+  },
+  "dependencies": {
+    "file": [
+      {
+        "type": "js",
+        "path": "//cdnjs.cloudflare.com/ajax/libs/Sortable/1.5.0-rc1/Sortable.min.js",
+        "name": "Sortable"
+      },
+      {
+        "type": "js",
+        "path": "//cdnjs.cloudflare.com/ajax/libs/axios/0.18.0/axios.min.js",
+        "name": "Axios"
+      }
+    ]
+  },
+  "domainSpec": {},
+  "input": [
+    {
+      "name": "data",
+      "valueType": "dynamic",
+      "description": "An input that takes a string",
+      "projection": {
+        "targets": [
+          {
+            "name": "items",
+            "channels": [
+              {
+                "name": "name",
+                "valueType": "string"
+              },
+              {
+                "name": "group",
+                "reference": {
+                  "referenceTarget": "groups",
+                  "nullable": false
+                }
+              },
+              {
+                "name": "onAdd",
+                "valueType": "dynamic"
+              },
+              {
+                "name": "onMove",
+                "valueType": "dynamic"
+              }
+            ]
+          },
+          {
+            "name": "groups",
+            "channels": [
+              {
+                "name": "name",
+                "valueType": "string"
+              },
+              {
+                "name": "onAdd",
+                "valueType": "dynamic"
+              },
+              {
+                "name": "onMove",
+                "valueType": "dynamic"
+              },
+              {
+                "name": "order",
+                "valueType": "dynamic",
+                "defaultValue": 0
+              },
+              {
+                "name": "required",
+                "valueType": "boolean",
+                "defaultValue": false
+              }
+            ]
+          }
+        ]
+      }
+    }
+  ],
+  "output": [
+    {
+      "name": "onAdd",
+      "valueType": "entity<dynamic from, dynamic to, dynamic item>",
+      "description": "Event when item is added from one list to another"
+    },
+    {
+      "name": "onMove",
+      "valueType": "entity<dynamic from, dynamic to, dynamic item>",
+      "description": "Event when an item is moved within a list or into a new list"
+    }
+  ],
+  "preprocessors": [
+    "ES2015"
+  ],
+  "version": "0.2"
+}
