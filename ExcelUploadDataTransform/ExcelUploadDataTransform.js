@@ -287,10 +287,33 @@ export default {
         var fullChunkCount = chunkedPromises.length;  // event clusters count
 
         initiateAllPromises(chunkedPromises);
+      }
 
+      // initiate all of the promise batches
+      function initiateAllPromises(promisesArr) {
+        console.log('How many promise clusters?', arr.length);
+
+        return promisesArr.reduce(function (p, item) {
+          return p.then(function (results) {
+            return getInfoForEveryInnerArgument(item).then(function (data) {
+              results.push(data);
+              return results;
+            })
+          });
+        }, Promise.resolve([]));
 
       }
 
+      // run all of the inner promises
+      function getInfoForEveryInnerArgument(InnerArray) {
+        const CPTPromises = _.map(InnerArray, (argument) => argument.promise);
+        return Promise.all(CPTPromises)
+          .then((results) => {
+            return doSomethingWithResults(results);
+          });
+      }
+
+      // chunk the events array
       function chunkArray(myArray, chunk_size) {
         var results = [];
         while (myArray.length) {
@@ -299,10 +322,105 @@ export default {
         return results;
       }
 
+      // build the get request
       function buildGeocodeGetRequest(address) {
         var encodedAddress = encodeURI(address);
         var url = 'https://maps.googleapis.com/maps/api/geocode/json?address=';
         var apiKey = '';
+        return axios.get(`${url}${encodedAddress}&key=${apiKey}`);
+      }
+
+      _this.api.output("transformedData", getTransformedData());
+      _this.api.output("success", !hasError);
+    };
+  },
+  _close() {
+  },
+  data() {
+    this.transformData();
+  }
+};
+
+
+
+
+
+
+
+
+
+
+
+export default {
+  _init() {
+    var _this = this;
+
+    this.transformData = function () {
+      var eventData = _this.api.inputState.export().data;
+      var axios = _this.api.imports.axios;
+      var hasError = false;
+      console.log('the event data', eventData);
+
+      ///////////////////////////////////////////////////////////////
+
+      function getTransformedData() {
+        var goodData = [];
+        var badData = [];
+        var value;
+        var eventsArrayWithPromises = eventData.map(function (event) {
+          event.promise = buildGeocodeGetRequest(event.venue_address)
+          return event;
+        })
+
+        initiateAllPromises(eventsArrayWithPromises).then(function (res) {
+          value = res;
+          return value;
+        })
+      }
+
+      // initiate all of the promise batches
+      function initiateAllPromises(arr) {
+        return new Promise(function (resolve, reject) {
+          var promisesArr = arr;
+          var results = {};
+          results.goodData = [];
+          results.badData = [];
+
+          var index = 0;
+          function next() {
+            if (index < promisesArr.length) {
+              var currentEvent = promisesArr[index++];
+              console.log('LOOK HERE', currentEvent);
+              buildGeocodeGetRequest(currentEvent.venue_address).then(function (data) {
+                console.log('success');
+                currentEvent.venue_lat = geo.results[0].geometry.location.lat;
+                currentEvent.venue_lon = geo.results[0].geometry.location.lng;
+                // capture the good data
+                results.goodData.push(currentEvent);
+                next();
+              }).catch(function (err) {
+                console.log('error');
+                // capture the bad data
+                results.badData.push(currentEvent);
+                hasError = true;
+              })
+
+            } else {
+              resolve(results);
+            };
+          };
+
+          // initialize
+          next();
+        })
+      }
+
+      // build the get request
+      function buildGeocodeGetRequest(address) {
+        var encodedAddress = encodeURI(address);
+        var url = 'https://maps.googleapis.com/maps/api/geocode/json?address=';
+        var apiKey = '';
+        console.log('inside build req function');
         return axios.get(`${url}${encodedAddress}&key=${apiKey}`);
       }
 
