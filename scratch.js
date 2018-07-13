@@ -326,7 +326,7 @@
 ]
 
 
-  // New Function for matching schema & headings - merge gate 2
+  // Function for matching schema & headings - version before remembered user mappings
   (function () {
     var excelHeadingsWithGroups = excelHeadings.map(function (heading) {
       var matchGroup = function (excelHeading) {
@@ -355,6 +355,8 @@
       "groups": chivvySchema
     };
   }())
+
+
 
 
   // old Gate 6
