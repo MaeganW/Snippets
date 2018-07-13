@@ -1,9 +1,11 @@
 
 // After pulling in user and getting new mappings
+// Currently contained in merge gate 12
 
 (function prepareUserMappings() {
   var newMappings = newMapping.mappedHeadings;
   var userMappings = getUserMappings();
+  var chivvySchema = chivvySchema;
 
   // if previous mappings, add new mappings to config, else return new mappings
   function getMappings() {
@@ -15,6 +17,7 @@
 
   // format new mappings name props to arrays
   function formatNewMappings(newMappings) {
+    var fullMappings = getFullMappings(newMappings, chivvySchema);
     return newMappings.map(function (mapping) {
       if (mapping.name.constructor !== Array) {
         mapping.name = new Array(mapping.name);
@@ -35,11 +38,22 @@
       });
       // add new mapping's heading to the old ones
       if (foundMapping) {
-        mapping.name.push(foundMapping.name);
+        var alreadyExistingName = mapping.name.find(function (name) {
+          return name === foundMapping.name;
+        })
+        // add new name to the array if no duplicates exist
+        if (!alreadyExistingName) {
+          mapping.name.push(foundMapping.name);
+        }
         return mapping;
       }
       return mapping;
     });
+  }
+
+  // ensure that all groups are created in the mappings
+  function getFullMappings(mappings, schema) {
+
   }
 
   // if previous mappings, return mapping, else return null
@@ -57,7 +71,7 @@
 
   return {
     userID: user[0].id,
-    mapping: getMappings()
+    mapping: JSON.stringify(getMappings())
   }
 }())
 
