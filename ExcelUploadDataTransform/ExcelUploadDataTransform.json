@@ -25,73 +25,6 @@
         "type": "js",
         "path": "https://cdnjs.cloudflare.com/ajax/libs/jquery/3.0.0-beta1/jquery.min.js",
         "name": "$"
-      }
-    ]
-  },
-  "domainSpec": {},
-  "input": [
-    {
-      "name": "data",
-      "valueType": "dynamic",
-      "description": "Takes in the mapped  event data from the excel spreadsheet."
-    }
-  ],
-  "output": [
-    {
-      "name": "success",
-      "valueType": "boolean",
-      "description": "Indicates if all data came back successfully."
-    },
-    {
-      "name": "error",
-      "valueType": "string",
-      "description": "Error message"
-    },
-    {
-      "name": "transformedData",
-      "valueType": "dynamic",
-      "description": "An output that returns the transformed data"
-    }
-  ],
-  "preprocessors": [
-    "ES2015"
-  ],
-  "version": "0.2"
-}
-
-
-
-
-
-
-
-{
-  "name": "ChivvyUploadDataTransform",
-  "main": "script.js",
-  "tags": [
-    "chivvy",
-    "upload",
-    "data",
-    "transform"
-  ],
-  "image": "/city-assets/images/c.svg",
-  "description": "This is a template jsdom component. It shows how to use most of the functionality available in a js dom component.",
-  "domain": "jsdom",
-  "layout": "html",
-  "layoutSpec": {
-    "element": "div",
-    "attributes": {
-      "class": "my-comp"
-    },
-    "innerHtml": "<p class=\"my-child\" hidden>\n</p>",
-    "css": ".my-comp {\n\tbackground: #eee;\n}"
-  },
-  "dependencies": {
-    "file": [
-      {
-        "type": "js",
-        "path": "https://cdnjs.cloudflare.com/ajax/libs/jquery/3.0.0-beta1/jquery.min.js",
-        "name": "$"
       },
       {
         "type": "js",
@@ -110,12 +43,22 @@
   ],
   "output": [
     {
-      "name": "success",
-      "valueType": "boolean",
-      "description": "Indicates if all data came back successfully."
+      "name": "badData",
+      "valueType": "entity",
+      "description": "Bad data returned from the request."
     },
     {
-      "name": "error",
+      "name": "goodData",
+      "valueType": "entity",
+      "description": "Good data returned from the request."
+    },
+    {
+      "name": "hasError",
+      "valueType": "boolean",
+      "description": "Indicates if some of the data came back with an error."
+    },
+    {
+      "name": "errorMsg",
       "valueType": "string",
       "description": "Error message"
     },
