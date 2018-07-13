@@ -1,0 +1,72 @@
+{
+  "name": "ChivvyExcelDropTarget",
+  "main": "script.js",
+  "tags": [
+    "excel",
+    "beginner",
+    "parse",
+    "flat flle",
+    "data",
+    "starter",
+    "ui"
+  ],
+  "image": "https://s3.amazonaws.com/exaptive-city-content/component-images/excel_file_drop.png",
+  "description": "## An easy to use component for bringing Excel files into a xap. \n# Example\nClick [here](/#/xaps/3aa060f0-52ca-11e7-aea1-21fcd1983f7c?version=stage) for a link to the Reference Xap.\n\n# Purpose\n* Allows user to drop an ordinary XLSX file into a target area or click to browse for the file.\n* Parses the dropped file without need for additional components.\n* A composite component combining the [File Drop](/#/components/a1e1b8b0-247f-11e6-aa9b-23ffb7ae8f3e) and [Excel Parser](/#/components/61bb0710-207c-11e7-b572-8114193a6ff4) components.\n\n# Inputs\n* ** options ** : \n * _html_ : sets the text on the File Drop Target\n * _join_ : options for joining multiple sheets. \n   * _pkColumn_ : The Google sheets column that will be treated as a primary key. The corresponding column's value will be used to combine data across multiple sheets.\n   * _splitColumns_ : A list of columns with content that should be split. The columns referenced in this property should be separated by a given delimiter (ex: \"climbing shoes, harness, chalk\" is separated by \",\"). The result will be a list of the separated values.\n   * _delimiters_ : A list of delimiters that will be used to split the content in split columns. A delimiter should line up with its corresponding splitColumn by index.\n \n Example options: \n ```\n {\n \t\"html\":\"Drop excel file to upload (or click)\",\n    \"join\":{\n    \t\"joinSheets\":true,\n    \t\"pkColumn\":\"user_id\",\n        \"splitColumns\":[\"commaDelimitedAttribute\", \"pipeDelmitedAttribute\"],\n        \"delimiters\":[\",\", \"|\"]\n        }\n  }\n ```\n \n# Outputs\n* ** loading ** : _boolean_ outputs `true` when data is received and `false` when data is fully parsed into an Exaptive duffle. \n* ** data ** : an Exaptive duffle of data based on the Excel file input. \n* ** fileTypeError ** : outputs `true` if there if the file is not an Excel file. Try using the Toast Notification component for alerting users to the file error. \n\nExample data output: \n```\n[\n  {\n    \"name\": \"Tim Smith\", \n    \"age\": 27, \n    \"gender\": \"male\", \n    \"hobby\": [\"reading\", \"climbing\"]\n  }, \n  {\n    \"name\": \"Lisa Freud\", \n    \"age\": 32, \n    \"gender\": \"female\", \n    \"hobby\": [\"yoga\", \"reading\"]\n  },\n  ...\n]\n```",
+  "domain": "jsdom",
+  "layout": "html",
+  "layoutSpec": {
+    "element": "div",
+    "attributes": {
+      "class": "xc-excel-file-drop"
+    }
+  },
+  "dependencies": {
+    "file": [
+      {
+        "type": "js",
+        "path": "https://cdnjs.cloudflare.com/ajax/libs/jquery/3.0.0-beta1/jquery.min.js",
+        "name": "$"
+      }
+    ]
+  },
+  "domainSpec": {},
+  "input": [
+    {
+      "name": "options",
+      "valueType": "entity",
+      "description": "Options for drop target and excel duffle parser",
+      "default": {
+        "html": "Drop excel file to upload (or click)",
+        "join": {
+          "joinSheets": true,
+          "pkColumn": "",
+          "splitColumns": [],
+          "delimiters": [
+            ","
+          ]
+        }
+      }
+    }
+  ],
+  "output": [
+    {
+      "name": "loading",
+      "valueType": "boolean",
+      "description": "Indicates whether or not the file is loading."
+    },
+    {
+      "name": "data",
+      "valueType": "dynamic",
+      "description": "An output that returns any value type"
+    },
+    {
+      "name": "fileTypeError",
+      "valueType": "boolean",
+      "description": "Outputs true if file type appears incorrect. "
+    }
+  ],
+  "preprocessors": [
+    "ES2015"
+  ],
+  "version": "0.2"
+}
