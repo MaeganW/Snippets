@@ -250,19 +250,22 @@
 
 // New Schema
 [
-  "venue_state",
-  "event_date",
-  "venue_city",
-  "event_id",
-  "venue_start_time",
-  "venue_end_time",
+  "source",
+  "source_event_id",
   "title",
   "description",
+  "event_date",
+  "time_start",
+  "time_end",
+  "url",
+  "url_logo",
   "venue_name",
   "venue_address",
+  "venue_city",
+  "venue_state",
   "venue_zip",
-  "url_logo",
-  "url"
+  "venue_lat",
+  "venue_lon"
 ]
 
 
@@ -630,13 +633,14 @@
   (function () {
     return data.map(function (event) {
       var encodedAddress;
-      if (event.venue_address.constructor !== Array) {
-        encodedAddress = encodeURI(event.venue_address)
-      } else {
-        encodedAddress = event.venue_address.map(function (address) {
-          encodedAddress = encodeURI(address);
-        })
-      }
+      // if (event.venue_address.constructor !== Array) {
+      encodedAddress = encodeURI(event.venue_address)
+      // } else {
+      //   encodedAddress = event.venue_address.map(function (address) {
+      //     encodedAddress = encodeURI(address);
+      //   })
+      // }
+
 
       fetch(url + address, {
         method: 'get'

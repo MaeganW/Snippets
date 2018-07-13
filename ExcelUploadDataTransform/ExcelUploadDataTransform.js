@@ -4,6 +4,7 @@ export default {
 
     this.transformData = function () {
       var eventData = _this.api.inputState.export().data;
+      var chivvySchema = _this.api.inputState.export().chivvySchema;
       var axios = _this.api.imports.axios;
       var hasError = false;
       getTransformedData();
@@ -11,7 +12,9 @@ export default {
       ///////////////////////////////////////////////////////////////
 
       function getTransformedData() {
-        initiateAllPromises(eventData).then(function (res) {
+        var fleshedOutData = fleshOutData(appendSourceInfo(parseDates(eventData)));
+
+        initiateAllPromises(fleshedOutData).then(function (res) {
           _this.api.output("hasError", hasError);
           _this.api.output("transformedData", res);
           _this.api.output("goodData", res.goodData);
@@ -57,19 +60,40 @@ export default {
 
       // add required source properties
       function appendSourceInfo(events) {
-        events.map(function (event) {
+        return events.map(function (event) {
           event.source = 'upload';
           event.source_event_id = event.event_id;
           return event;
         });
       }
 
+      // db expects the entire schema - this ensures that
+      function fleshOutData(events) {
+        return events.map(function (event) {
+          chivvySchema.forEach(function (field) {
+            if (!event[field]) {
+              event[field] = null;
+            }
+          });
+          return event;
+        });
+      }
+
       // format dates on the events
-      // function parseDates(events) {
-      //   return events.map(function (event) {
-      //     event.time_start = event.
-      //   });
-      // }
+      function parseDates(events) {
+        return events.map(function (event) {
+          event.time_start = Date.parse(event.event_date); //relies on event date being required
+          event.time_end = Date.parse(event.event_date); //relies on event date being required
+          event.event_date = Date.parse(event.event_date); //relies on event date being required
+          if (event.venue_start_time) {
+            event.venue_start_time = Date.parse(event.venue_start_time);
+          }
+          if (event.venue_end_time) {
+            event.venue_start_time = Date.parse(event.venue_start_time);
+          }
+          return event;
+        });
+      }
 
       // build the get request
       function buildGeocodeGetRequest(address) {

@@ -36,6 +36,29 @@
   "domainSpec": {},
   "input": [
     {
+      "name": "chivvySchema",
+      "valueType": "dynamic",
+      "description": "Provide an array of string values.",
+      "default": [
+        "source",
+        "source_event_id",
+        "title",
+        "description",
+        "event_date",
+        "time_start",
+        "time_end",
+        "url",
+        "url_logo",
+        "venue_name",
+        "venue_address",
+        "venue_city",
+        "venue_state",
+        "venue_zip",
+        "venue_lat",
+        "venue_lon"
+      ]
+    },
+    {
       "name": "data",
       "valueType": "dynamic",
       "description": "Takes in the mapped  event data from the excel spreadsheet."
@@ -44,12 +67,12 @@
   "output": [
     {
       "name": "badData",
-      "valueType": "entity",
+      "valueType": "dynamic",
       "description": "Bad data returned from the request."
     },
     {
       "name": "goodData",
-      "valueType": "entity",
+      "valueType": "dynamic",
       "description": "Good data returned from the request."
     },
     {
