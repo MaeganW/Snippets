@@ -1,26 +1,34 @@
 
 // ===== Function for matching schema & headings - version with remembered user mappings =====
 
-// Version after making mapping.name an array
+// Version after making saved mappings into an array of configs
 
 (function initialMapping() {
   // map the excel headings with the correct groups
   function getExcelHeadingsWithGroups(headings) {
+    var matchingConfig = null;
+    if (userMappings) {
+      matchingConfig = getMatchingConfig(userMappings, headings);
+    }
+
     return headings.map(function (heading) {
       return {
         "name": heading.name,
-        "group": applyCorrectGroup(heading.name)
+        "group": (!matchingConfig) ? matchNewGroup(heading.name) : matchOldGroup(heading.name, matchingConfig)
       }
-    })
+    });
   }
 
-  // check if user has previous mappings before proceeding
-  function applyCorrectGroup(excelHeading) {
-    if (userMappings && userMappings.length !== 0 && userMappings !== null) {
-      return matchOldGroup(excelHeading, userMappings)
-    } else {
-      return matchNewGroup(excelHeading);
-    }
+  // check if a mapping config from the user matches the current spreadsheet
+  function getMatchingConfig(userMappings, headings) {
+    var headingNames = headings.map(item => item.name);
+    return userMappings.map(function (config) {
+      var configNames = config.map(item => item.name);
+      if (configNames.every(item => headingNames.includes(item))) {
+        return config;
+      }
+      return null;
+    });
   }
 
   // if no previous mappings, create new
@@ -42,19 +50,12 @@
   // if previous mappings, apply old
   function matchOldGroup(excelHeading, oldMappings) {
     var foundGroup = oldMappings.find(function (mapping) {
-      return mapping.name.includes(excelHeading);
+      return mapping.name === excelHeading;
     });
-    if (foundGroup && foundGroup !== null) {
-      return {
-        schemaName: foundGroup.group,
-        required: getRequiredStatus(foundGroup.group)
-      };
-    } else {
-      return {
-        schemaName: 'title',
-        required: true
-      };
-    }
+    return {
+      schemaName: foundGroup.group,
+      required: getRequiredStatus(foundGroup.group)
+    };
   }
 
   // get the required status from the schema
@@ -70,6 +71,83 @@
     "groups": chivvySchema
   };
 }())
+
+
+
+
+
+
+
+
+
+  // Version after making mapping.name an array
+  (function initialMapping() {
+    // map the excel headings with the correct groups
+    function getExcelHeadingsWithGroups(headings) {
+      return headings.map(function (heading) {
+        return {
+          "name": heading.name,
+          "group": applyCorrectGroup(heading.name)
+        }
+      })
+    }
+
+    // check if user has previous mappings before proceeding
+    function applyCorrectGroup(excelHeading) {
+      if (userMappings && userMappings.length !== 0 && userMappings !== null) {
+        return matchOldGroup(excelHeading, userMappings)
+      } else {
+        return matchNewGroup(excelHeading);
+      }
+    }
+
+    // if no previous mappings, create new
+    function matchNewGroup(excelHeading) {
+      var initialCharacters = excelHeading.substring(0, 7);
+      var foundGroup = chivvySchema.find(function (group) {
+        return group.schemaName.match(initialCharacters);
+      });
+      if (foundGroup && foundGroup !== null) {
+        return foundGroup;
+      } else {
+        return {
+          schemaName: 'title',
+          required: true
+        };
+      }
+    }
+
+    // if previous mappings, apply old
+    function matchOldGroup(excelHeading, oldMappings) {
+      var foundGroup = oldMappings.find(function (mapping) {
+        return mapping.name.includes(excelHeading);
+      });
+      if (foundGroup && foundGroup !== null) {
+        return {
+          schemaName: foundGroup.group,
+          required: getRequiredStatus(foundGroup.group)
+        };
+      } else {
+        return {
+          schemaName: 'title',
+          required: true
+        };
+      }
+    }
+
+    // get the required status from the schema
+    function getRequiredStatus(group) {
+      var foundSchema = chivvySchema.find(function (schema) {
+        return schema.schemaName === group;
+      });
+      return foundSchema.required;
+    }
+
+    return {
+      "items": getExcelHeadingsWithGroups(excelHeadings),
+      "groups": chivvySchema
+    };
+  }())
 
 
 

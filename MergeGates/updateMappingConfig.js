@@ -17,7 +17,7 @@
 
   // format new mappings
   function formatNewMappings(newMappings) {
-    return getFullMappings(newMappings, chivvySchema);
+    return new Array(getFullMappings(newMappings, chivvySchema));
   }
 
   // combine old and new mappings - old mappings is an array of arrays
