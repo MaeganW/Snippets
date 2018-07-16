@@ -5,7 +5,6 @@
 (function prepareUserMappings() {
   var newMappings = newMapping.mappedHeadings;
   var userMappings = getUserMappings();
-  var chivvySchema = chivvySchema;
 
   // if previous mappings, add new mappings to config, else return new mappings
   function getMappings() {
@@ -16,7 +15,7 @@
   }
 
   // format new mappings
-  function formatNewMappings(newMappings) {
+  function formatNewMappings(newMappings) { // fails here
     return new Array(getFullMappings(newMappings, chivvySchema));
   }
 
@@ -40,7 +39,7 @@
     });
 
     if (!configsArrayWasUpdated) {
-      configsArray.push(newMapping);
+      configsArray.push(newMappings);
     }
 
     return configsArray;
