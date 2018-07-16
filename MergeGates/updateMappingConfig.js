@@ -15,45 +15,57 @@
     return formatNewMappings(newMappings);
   }
 
-  // format new mappings - create inner array
+  // format new mappings
   function formatNewMappings(newMappings) {
-    var fullMappings = getFullMappings(newMappings, chivvySchema);
-    return fullMappings.map(function (mapping) {
-      if (mapping.name.constructor !== Array) {
-        mapping.name = new Array(mapping.name);
-      }
-      return mapping;
-    })
+    return getFullMappings(newMappings, chivvySchema);
   }
 
-  // combine old and new mappings
+  // combine old and new mappings - old mappings is an array of arrays
   function getUpdatedMappings(oldMappings, newMappings) {
-    return oldMappings.map(function (mapping) {
-      if (mapping.name.constructor !== Array) {
-        mapping.name = new Array(mapping.name);
-      }
-      // match up the group of the new mapping to the old
-      var foundMapping = newMappings.find(function (newMapping) {
-        return newMapping.group === mapping.group;
+    var newMappingsHeadings = newMappings.map(mapping => mapping.name);
+    var configsArrayWasUpdated = false;
+
+    var configsArray = oldMappings.map(function (oldConfig) {
+      var oldConfigHeadings = oldConfig.map(item => item.name);
+      var headingsAreSame = oldConfigHeadings.every(function (heading) {
+        return newMappingsHeadings.includes(heading);
       });
-      // add new mapping's heading to the old ones
-      if (foundMapping) {
-        var alreadyExistingName = mapping.name.find(function (name) {
-          return name === foundMapping.name;
-        })
-        // add new name to the array if no duplicates exist
-        if (!alreadyExistingName) {
-          mapping.name.push(foundMapping.name);
-        }
-        return mapping;
+
+      if (headingsAreSame) {
+        configsArrayWasUpdated = true;
+        return getFullMappings(newMappings, chivvySchema);
+      } else {
+        return oldConfig;
       }
-      return mapping;
     });
+
+    if (!configsArrayWasUpdated) {
+      configsArray.push(newMapping);
+    }
+
+    return configsArray;
   }
 
   // ensure that all groups are created in the mappings
   function getFullMappings(mappings, schema) {
-
+    var fullMappings = mappings;
+    var mappingTemplate = schema.map(function (prop) {
+      return {
+        group: prop.schemaName,
+        name: null
+      }
+    });
+    var fullMappingsGroups = mappings.map(function (item) {
+      return item.group;
+    });
+    mappingTemplate.forEach(function (item) {
+      // check if fullMappings already contains that group
+      var foundGroup = fullMappingsGroups.includes(item.group);
+      if (!foundGroup) {
+        fullMappings.push(item);
+      }
+    });
+    return fullMappings;
   }
 
   // if previous mappings, return mapping, else return null
@@ -65,8 +77,8 @@
   }
 
   // parse data from SQL to JSON format
-  function parseMappings(mappings) {
-    return JSON.parse(mappings.replace(/&quot;/g, '"'))
+  function parseMappings(mappingsArr) {
+    return JSON.parse(mappingsArr.replace(/&quot;/g, '"'))
   }
 
   return {
