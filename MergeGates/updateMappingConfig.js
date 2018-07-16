@@ -16,7 +16,7 @@
 
   // format new mappings
   function formatNewMappings(newMappings) { // fails here
-    return new Array(getFullMappings(newMappings, chivvySchema));
+    return new Array(newMappings);
   }
 
   // combine old and new mappings - old mappings is an array of arrays
@@ -32,7 +32,7 @@
 
       if (headingsAreSame) {
         configsArrayWasUpdated = true;
-        return getFullMappings(newMappings, chivvySchema);
+        return newMappings;
       } else {
         return oldConfig;
       }
@@ -43,29 +43,6 @@
     }
 
     return configsArray;
-  }
-
-  // ensure that all groups are created in the mappings
-  function getFullMappings(mappings, schema) {
-    var fullMappings = mappings;
-    // // var mappingTemplate = schema.map(function (prop) {
-    // //   return {
-    // //     group: prop.schemaName,
-    // //     name: null
-    // //   }
-    // // });
-    // var fullMappingsGroups = mappings.map(function (item) {
-    //   return item.group;
-    // });
-    // // mappingTemplate.forEach(function (item) {
-    // mappings.forEach(function (item) {
-    //   // check if fullMappings already contains that group
-    //   var foundGroup = fullMappingsGroups.includes(item.group);
-    //   if (!foundGroup) {
-    //     fullMappings.push(item);
-    //   }
-    // });
-    return fullMappings;
   }
 
   // if previous mappings, return mapping, else return null

@@ -9,12 +9,7 @@
     var matchingConfig = null;
     if (userMappings) {
       matchingConfig = getMatchingConfig(userMappings, headings);
-      console.log('SCOPE WHY', matchingConfig)
     }
-
-    console.log('SPARTA!!!! ', matchingConfig);
-    console.log('SPARTA wat? ', !matchingConfig);
-
     return headings.map(function (heading) {
       return {
         "name": heading.name,
@@ -30,11 +25,7 @@
     return userMappings.find(function (config) {
       var configNames = config.map(item => item.name);
       var isMatching = configNames.every(item => headingNames.includes(item));
-
-      console.log('is matching ', isMatching)
-
       if (isMatching) {
-        console.log('this is the right config ', config)
         return config;
       }
     });
@@ -42,7 +33,6 @@
 
   // if no previous mappings, create new
   function matchNewGroup(excelHeading) {
-    console.log('OKC won')
     var initialCharacters = excelHeading.substring(0, 7);
     var foundGroup = chivvySchema.find(function (group) {
       return group.schemaName.match(initialCharacters);
@@ -59,13 +49,9 @@
 
   // if previous mappings, apply old
   function matchOldGroup(excelHeading, oldMappings) {
-    console.log('ATHENS WON');
-    console.log('old mappings ', oldMappings);
-    console.log('excel heading ', excelHeading.toString())
     var foundGroup = oldMappings.find(function (mapping) {
       return mapping.name == excelHeading.toString();
     });
-    console.log('LOOK HERE ', foundGroup)
     return {
       schemaName: foundGroup.group,
       required: getRequiredStatus(foundGroup.group)

@@ -447,7 +447,7 @@
 
 
 
-  // Gate 6 - new
+  // Gate 7 - new
   // Funciton to fire when toAdd event is activated - creates mapped headings
   (function () {
     var dataToChange;
@@ -484,7 +484,6 @@
       }
     })
 
-    console.log("mappedHeadings ", mappedHeadings)
     return {
       "mappedHeadings": mappedHeadings,
       "timeStamp": (savedTimeStamp || newData.timeStamp) ? savedTimeStamp : null
