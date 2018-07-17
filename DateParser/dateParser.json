@@ -22,6 +22,11 @@
         "type": "js",
         "path": "https://cdnjs.cloudflare.com/ajax/libs/jquery/3.0.0-beta1/jquery.min.js",
         "name": "$"
+      },
+      {
+        "type": "js",
+        "path": "https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.22.2/moment.min.js",
+        "name": "moment"
       }
     ]
   },
@@ -34,6 +39,11 @@
     }
   ],
   "output": [
+    {
+      "name": "loading",
+      "valueType": "boolean",
+      "description": "Loading status."
+    },
     {
       "name": "transformedData",
       "valueType": "dynamic",
