@@ -18,10 +18,10 @@
     });
   }
 
+  var headingNames = {};
   // check if a mapping config from the user matches the current spreadsheet
   function getMatchingConfig(userMappings, headings) {
-    var headingNames = headings.map(item => item.name);
-
+    let headingNames = headings.map(item => item.name);
     return userMappings.find(function (config) {
       var configNames = config.map(item => item.name);
       var isMatching = configNames.every(item => headingNames.includes(item));
