@@ -1,3 +1,4 @@
+// my version
 export default {
   _init() {
 
@@ -41,10 +42,10 @@ export default {
     let state = this.api.inputState.export(),
       layout = this.api.layoutElement,
       target = state.target,
-      isHidden = state.toggle,
+      isShown = state.toggle,
       $ = this.api.imports.$;
 
-    if (!isHidden) {
+    if (isShown) {
       $(target)
         .popup('show');
       this.api.output("opened", true);
