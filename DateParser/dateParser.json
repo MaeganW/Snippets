@@ -35,11 +35,6 @@
   ],
   "output": [
     {
-      "name": "errorMsg",
-      "valueType": "string",
-      "description": "Outputs error message if there is one."
-    },
-    {
       "name": "transformedData",
       "valueType": "dynamic",
       "description": "An output that returns the transformed data when there is no error."
