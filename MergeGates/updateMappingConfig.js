@@ -3,8 +3,8 @@
 // Currently contained in merge gate 12
 
 (function prepareUserMappings() {
-  var newMappings = newMapping.mappedHeadings;
-  var userMappings = getUserMappings();
+  const newMappings = newMapping.mappedHeadings;
+  const userMappings = getUserMappings();
 
   // if previous mappings, add new mappings to config, else return new mappings
   function getMappings() {
@@ -21,14 +21,12 @@
 
   // combine old and new mappings - old mappings is an array of arrays
   function getUpdatedMappings(oldMappings, newMappings) {
-    var newMappingsHeadings = newMappings.map(mapping => mapping.name);
-    var configsArrayWasUpdated = false;
+    const newMappingsHeadings = newMappings.map(mapping => mapping.name);
+    let configsArrayWasUpdated = false;
 
-    var configsArray = oldMappings.map(function (oldConfig) {
-      var oldConfigHeadings = oldConfig.map(item => item.name);
-      var headingsAreSame = oldConfigHeadings.every(function (heading) {
-        return newMappingsHeadings.includes(heading);
-      });
+    const configsArray = oldMappings.map(function (oldConfig) {
+      const oldConfigHeadings = oldConfig.map(item => item.name);
+      const headingsAreSame = oldConfigHeadings.every(heading => newMappingsHeadings.includes(heading));
 
       if (headingsAreSame) {
         configsArrayWasUpdated = true;

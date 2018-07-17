@@ -1,13 +1,13 @@
 // LATEST - version with date parsing removed
 export default {
   _init() {
-    var _this = this;
+    const _this = this;
 
     this.transformData = function () {
-      var eventData = _this.api.inputState.export().data;
-      var chivvySchema = _this.api.inputState.export().chivvySchema;
-      var axios = _this.api.imports.axios;
-      var hasError = false;
+      const eventData = _this.api.inputState.export().data;
+      const chivvySchema = _this.api.inputState.export().chivvySchema;
+      const axios = _this.api.imports.axios;
+      let hasError = false;
       getTransformedData();
 
       ///////////////////////////////////////////////////////////////
@@ -16,8 +16,9 @@ export default {
         _this.api.output("loading", true);
 
         initiateAllPromises(eventData).then(function (res) {
-          var goodData = fleshOutData(appendSourceInfo(res.goodData));
-          var badData = res.badData;
+          const goodData = fleshOutData(appendSourceInfo(res.goodData));
+          const badData = res.badData;
+
           _this.api.output("hasError", hasError);
           _this.api.output("loading", false);
           _this.api.output("transformedData", (hasError) ? null : goodData);
@@ -29,15 +30,15 @@ export default {
       // initiate all of the promises
       function initiateAllPromises(arr) {
         return new Promise(function (resolve, reject) {
-          var promisesArr = arr;
-          var results = {};
+          const promisesArr = arr;
+          let results = {};
           results.goodData = [];
           results.badData = [];
 
-          var index = 0;
+          let index = 0;
           function next() {
             if (index < promisesArr.length) {
-              var currentEvent = promisesArr[index++];
+              const currentEvent = promisesArr[index++];
               buildGeocodeGetRequest(currentEvent.venue_address).then(function (geo) {
                 currentEvent.venue_lat = geo.data.results[0].geometry.location.lat;
                 currentEvent.venue_lon = geo.data.results[0].geometry.location.lng;
@@ -84,9 +85,9 @@ export default {
 
       // build the get request
       function buildGeocodeGetRequest(address) {
-        var encodedAddress = encodeURI(address);
-        var url = 'https://maps.googleapis.com/maps/api/geocode/json?address=';
-        var apiKey = '';
+        const encodedAddress = encodeURI(address);
+        const url = 'https://maps.googleapis.com/maps/api/geocode/json?address=';
+        const apiKey = '';
         return axios.get(`${url}${encodedAddress}&key=${apiKey}`);
       }
     };
