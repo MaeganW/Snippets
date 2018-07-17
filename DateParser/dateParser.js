@@ -12,12 +12,15 @@ export default {
       ///////////////////////////////////////////////////////////////
 
       function getTransformedData() {
-        const parsedData = sortData(parseDates(eventData));
+        let parsedData = null;
+        if (eventData) {
+          parsedData = sortData(parseDates(eventData));
+        }
 
         _this.api.output("hasError", hasError);
-        _this.api.output("transformedData", (hasError) ? null : parsedData.goodData);
-        _this.api.output("goodData", parsedData.goodData);
-        _this.api.output("badData", parsedData.badData);
+        _this.api.output("transformedData", (!hasError && parsedData) ? parsedData.goodData : null);
+        _this.api.output("goodData", parsedData ? parsedData.goodData : null);
+        _this.api.output("badData", parsedData ? parsedData.badData : null);
       }
 
       // format dates on the events
@@ -57,7 +60,7 @@ export default {
             'event_date'
           ];
 
-          if (timeProps.some(prop => Object.isNan(event[prop]) || typeof event[prop] !== "number")) {
+          if (timeProps.some(prop => Object.is(event[prop], NaN) || typeof event[prop] !== "number")) {
             hasError = true;
             badData.push(event);
           } else {

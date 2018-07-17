@@ -13,8 +13,6 @@ export default {
       ///////////////////////////////////////////////////////////////
 
       function getTransformedData() {
-        var fleshedOutData = fleshOutData(appendSourceInfo(parseDates(eventData)));
-
         initiateAllPromises(eventData).then(function (res) {
           var goodData = fleshOutData(appendSourceInfo(res.goodData));
           var badData = res.badData;
@@ -77,22 +75,6 @@ export default {
               event[field] = null;
             }
           });
-          return event;
-        });
-      }
-
-      // format dates on the events
-      function parseDates(events) {
-        return events.map(function (event) {
-          event.time_start = Date.parse(event.event_date); //relies on event date being required
-          event.time_end = Date.parse(event.event_date); //relies on event date being required
-          event.event_date = Date.parse(event.event_date); //relies on event date being required
-          if (event.venue_start_time) {
-            event.venue_start_time = Date.parse(event.venue_start_time);
-          }
-          if (event.venue_end_time) {
-            event.venue_start_time = Date.parse(event.venue_start_time);
-          }
           return event;
         });
       }
