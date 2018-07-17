@@ -13,10 +13,13 @@ export default {
       ///////////////////////////////////////////////////////////////
 
       function getTransformedData() {
+        _this.api.output("loading", true);
+
         initiateAllPromises(eventData).then(function (res) {
           var goodData = fleshOutData(appendSourceInfo(res.goodData));
           var badData = res.badData;
           _this.api.output("hasError", hasError);
+          _this.api.output("loading", false);
           _this.api.output("transformedData", (hasError) ? null : goodData);
           _this.api.output("goodData", res.goodData);
           _this.api.output("badData", res.badData);
