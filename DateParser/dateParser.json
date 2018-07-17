@@ -1,0 +1,67 @@
+{
+  "name": "ChivvyDateParser",
+  "main": "script.js",
+  "tags": [
+    "Chivvy",
+    "Date",
+    "Parser"
+  ],
+  "image": "/city-assets/images/c.svg",
+  "description": "This is a template jsdom component. It shows how to use most of the functionality available in a js dom component.",
+  "domain": "jsdom",
+  "layout": "html",
+  "layoutSpec": {
+    "element": "div",
+    "attributes": {
+      "class": "my-comp"
+    }
+  },
+  "dependencies": {
+    "file": [
+      {
+        "type": "js",
+        "path": "https://cdnjs.cloudflare.com/ajax/libs/jquery/3.0.0-beta1/jquery.min.js",
+        "name": "$"
+      }
+    ]
+  },
+  "domainSpec": {},
+  "input": [
+    {
+      "name": "data",
+      "valueType": "dynamic",
+      "description": "An input that takes in Chivvy event data."
+    }
+  ],
+  "output": [
+    {
+      "name": "errorMsg",
+      "valueType": "string",
+      "description": "Outputs error message if there is one."
+    },
+    {
+      "name": "transformedData",
+      "valueType": "dynamic",
+      "description": "An output that returns the transformed data when there is no error."
+    },
+    {
+      "name": "hasError",
+      "valueType": "boolean",
+      "description": "Shows if there was an error in data parsing."
+    },
+    {
+      "name": "badData",
+      "valueType": "dynamic",
+      "description": "An output that returns bad data."
+    },
+    {
+      "name": "goodData",
+      "valueType": "dynamic",
+      "description": "An output that returns good data."
+    }
+  ],
+  "preprocessors": [
+    "ES2015"
+  ],
+  "version": "0.2"
+}
