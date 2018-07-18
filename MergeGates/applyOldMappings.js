@@ -23,7 +23,7 @@
     const headingNames = headings.map(item => item.name);
     return userMappings.find(function (config) {
       const configNames = config.map(item => item.name);
-      const isMatching = configNames.every(item => headingNames.includes(item));
+      const isMatching = configNames.every(item => headingNames.includes(item)) && configNames.length === headingNames.length;
       if (isMatching) {
         return config;
       }
@@ -57,7 +57,6 @@
 
   // get the required status from the schema
   function getRequiredStatus(group) {
-    console.log('here is group ', group);
     const foundSchema = chivvySchema.find(schema => schema.schemaName === group);
     return foundSchema.required;
   }
@@ -79,74 +78,74 @@
 
   // Version after making saved mappings into an array of configs
 
-  (function initialMapping() {
-    // map the excel headings with the correct groups
-    function getExcelHeadingsWithGroups(headings) {
-      var matchingConfig = null;
-      if (userMappings) {
-        matchingConfig = getMatchingConfig(userMappings, headings);
-      }
-      return headings.map(function (heading) {
-        return {
-          "name": heading.name,
-          "group": (matchingConfig) ? matchOldGroup(heading.name, matchingConfig) : matchNewGroup(heading.name)
-        }
-      });
-    }
+  // (function initialMapping() {
+  //   // map the excel headings with the correct groups
+  //   function getExcelHeadingsWithGroups(headings) {
+  //     var matchingConfig = null;
+  //     if (userMappings) {
+  //       matchingConfig = getMatchingConfig(userMappings, headings);
+  //     }
+  //     return headings.map(function (heading) {
+  //       return {
+  //         "name": heading.name,
+  //         "group": (matchingConfig) ? matchOldGroup(heading.name, matchingConfig) : matchNewGroup(heading.name)
+  //       }
+  //     });
+  //   }
 
-    var headingNames = {};
-    // check if a mapping config from the user matches the current spreadsheet
-    function getMatchingConfig(userMappings, headings) {
-      let headingNames = headings.map(item => item.name);
-      return userMappings.find(function (config) {
-        var configNames = config.map(item => item.name);
-        var isMatching = configNames.every(item => headingNames.includes(item));
-        if (isMatching) {
-          return config;
-        }
-      });
-    }
+  //   var headingNames = {};
+  //   // check if a mapping config from the user matches the current spreadsheet
+  //   function getMatchingConfig(userMappings, headings) {
+  //     let headingNames = headings.map(item => item.name);
+  //     return userMappings.find(function (config) {
+  //       var configNames = config.map(item => item.name);
+  //       var isMatching = configNames.every(item => headingNames.includes(item));
+  //       if (isMatching) {
+  //         return config;
+  //       }
+  //     });
+  //   }
 
-    // if no previous mappings, create new
-    function matchNewGroup(excelHeading) {
-      var initialCharacters = excelHeading.substring(0, 7);
-      var foundGroup = chivvySchema.find(function (group) {
-        return group.schemaName.match(initialCharacters);
-      });
-      if (foundGroup && foundGroup !== null) {
-        return foundGroup;
-      } else {
-        return {
-          schemaName: 'title',
-          required: true
-        };
-      }
-    }
+  //   // if no previous mappings, create new
+  //   function matchNewGroup(excelHeading) {
+  //     var initialCharacters = excelHeading.substring(0, 7);
+  //     var foundGroup = chivvySchema.find(function (group) {
+  //       return group.schemaName.match(initialCharacters);
+  //     });
+  //     if (foundGroup && foundGroup !== null) {
+  //       return foundGroup;
+  //     } else {
+  //       return {
+  //         schemaName: 'title',
+  //         required: true
+  //       };
+  //     }
+  //   }
 
-    // if previous mappings, apply old
-    function matchOldGroup(excelHeading, oldMappings) {
-      var foundGroup = oldMappings.find(function (mapping) {
-        return mapping.name == excelHeading.toString();
-      });
-      return {
-        schemaName: foundGroup.group,
-        required: getRequiredStatus(foundGroup.group)
-      };
-    }
+  //   // if previous mappings, apply old
+  //   function matchOldGroup(excelHeading, oldMappings) {
+  //     var foundGroup = oldMappings.find(function (mapping) {
+  //       return mapping.name == excelHeading.toString();
+  //     });
+  //     return {
+  //       schemaName: foundGroup.group,
+  //       required: getRequiredStatus(foundGroup.group)
+  //     };
+  //   }
 
-    // get the required status from the schema
-    function getRequiredStatus(group) {
-      var foundSchema = chivvySchema.find(function (schema) {
-        return schema.schemaName === group;
-      });
-      return foundSchema.required;
-    }
+  //   // get the required status from the schema
+  //   function getRequiredStatus(group) {
+  //     var foundSchema = chivvySchema.find(function (schema) {
+  //       return schema.schemaName === group;
+  //     });
+  //     return foundSchema.required;
+  //   }
 
-    return {
-      "items": getExcelHeadingsWithGroups(excelHeadings),
-      "groups": chivvySchema
-    };
-  }())
+  //   return {
+  //     "items": getExcelHeadingsWithGroups(excelHeadings),
+  //     "groups": chivvySchema
+  //   };
+  // }())
 
 
 

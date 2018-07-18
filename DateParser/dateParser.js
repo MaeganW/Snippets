@@ -5,6 +5,7 @@ export default {
 
     this.transformData = function () {
       const eventData = _this.api.inputState.export().data;
+      const moment = _this.api.imports.moment;
       let hasError = false;
       getTransformedData();
 
@@ -37,7 +38,7 @@ export default {
         let goodData = [];
 
         events.forEach(event => {
-          if (timeProps.some(prop => Object.is(event[prop], NaN) || typeof event[prop] !== "number")) {
+          if (timeProps.some(prop => event[prop] === null)) {
             hasError = true;
             badData.push(event);
           } else {
@@ -59,11 +60,11 @@ export default {
             timeObj.event_date = moment(event.event_date).format('YYYY-MM-DD');
             // returns "2018-07-04"
 
-            if (timeProps.some(prop => Object.is(timeObj[prop], NaN) || typeof timeObj[prop] !== "number")) {
+            if (timeProps.some(prop => Object.is(timeObj[prop], NaN) || timeObj[prop] === null)) {
               hasError = true;
               badData.push(event);
             } else {
-              timeProps.forEach(prop => event[prop] = timeObj[prop])
+              timeProps.forEach(prop => event[prop] = timeObj[prop]);
               goodData.push(event);
             }
           }
@@ -72,7 +73,7 @@ export default {
         return {
           goodData,
           badData
-        }
+        };
       }
     };
   },
@@ -83,7 +84,8 @@ export default {
   }
 };
 
-
+// TODO - Semantic UI message showing up wrong - change target
+// TODO - longer config overwrites shorter but not other way around - look at lengths
 
 
 // The following events have invalid dates/times. Please enter a valid date/time (ex: "7/4/2018" or "7/4/2018 6:00 PM").
