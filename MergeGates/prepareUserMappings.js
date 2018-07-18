@@ -26,9 +26,7 @@
 
     const configsArray = oldMappings.map(function (oldConfig) {
       const oldConfigHeadings = oldConfig.map(item => item.name);
-      const headingsAreSame = oldConfigHeadings.every(heading => newMappingsHeadings.includes(heading));
-
-      if (headingsAreSame) {
+      if (oldConfigHeadings.every(heading => newMappingsHeadings.includes(heading)) && oldConfigHeadings.length === newMappingsHeadings.length) {
         configsArrayWasUpdated = true;
         return newMappings;
       } else {
