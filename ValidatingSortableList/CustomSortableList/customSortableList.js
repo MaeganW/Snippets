@@ -1,3 +1,4 @@
+// LATEST
 let groupId = 0;
 
 export default {
@@ -115,7 +116,7 @@ export default {
       });
     }
     function onMoveHandler(evt) {
-      if (evt.to.dataset.limitto !== null && evt.to.children.length > --evt.to.dataset.limitto) {
+      if (evt.to.dataset.limitto !== null && evt.to.children.length > (Number(evt.to.dataset.limitto) - 1)) {
         _this.output('onMove', {
           from: null,
           to: null,
