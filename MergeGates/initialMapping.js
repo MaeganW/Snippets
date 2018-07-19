@@ -41,7 +41,8 @@
     } else {
       return {
         schemaName: 'title',
-        required: true
+        required: true,
+        limitTo: "multi"
       };
     }
   }
@@ -51,7 +52,8 @@
     const matchingGroup = oldMappings.find(mapping => mapping.name == excelHeading.toString());
     return {
       schemaName: matchingGroup.group,
-      required: getRequiredStatus(matchingGroup.group)
+      required: getRequiredStatus(matchingGroup.group),
+      limitTo: getLimit(matchingGroup.group)
     };
   }
 
@@ -59,6 +61,11 @@
   function getRequiredStatus(group) {
     const foundSchema = chivvySchema.find(schema => schema.schemaName === group);
     return foundSchema.required;
+  }
+
+  function getLimit(group) {
+    const foundSchema = chivvySchema.find(schema => schema.schemaName === group);
+    return foundSchema.limitTo;
   }
 
   return {
