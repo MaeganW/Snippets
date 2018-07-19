@@ -1,4 +1,4 @@
-// LATEST
+// LATEST - takes into account the required and limitTo properties
 let groupId = 0;
 
 export default {
@@ -116,7 +116,7 @@ export default {
       });
     }
     function onMoveHandler(evt) {
-      if (evt.to.dataset.limitto !== null && evt.to.children.length > (Number(evt.to.dataset.limitto) - 1)) {
+      if (evt.to.dataset.limitto !== null && !Object.is(Number(evt.to.dataset.limitto), NaN) && evt.to.children.length > (Number(evt.to.dataset.limitto) - 1)) {
         _this.output('onMove', {
           from: null,
           to: null,
