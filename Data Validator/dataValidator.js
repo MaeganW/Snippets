@@ -16,7 +16,7 @@ export default {
         let validData = [];
 
         eventData.forEach(event => {
-
+          // todo - bring in the contraints info
         })
         _this.api.output("errorMsg", hasError ? errorMsg : null);
         _this.api.output("data", (!hasError) ? eventData : null);
