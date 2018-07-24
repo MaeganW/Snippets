@@ -38,7 +38,7 @@ export default {
         let goodData = [];
 
         events.forEach(event => {
-          if (timeProps.some(prop => event[prop] === null)) {
+          if (timeProps.some(prop => event[prop] === null) || timeProps.some(prop => event[prop].constructor === Array)) {
             hasError = true;
             badData.push(event);
           } else {
@@ -60,7 +60,7 @@ export default {
             timeObj.event_date = moment(event.event_date).format('YYYY-MM-DD');
             // returns "2018-07-04"
 
-            if (timeProps.some(prop => Object.is(timeObj[prop], NaN) || timeObj[prop] === null)) {
+            if (timeProps.some(prop => Object.is(timeObj[prop], NaN) || timeObj[prop] === null || timeObj[prop] === 'Invalid date')) {
               hasError = true;
               badData.push(event);
             } else {
