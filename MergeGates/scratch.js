@@ -444,11 +444,61 @@
   //   };
   // }())
 
+  (function resetTable() {
+    console.log('table cleared');
+    x0 = null;
+    return x0;
+  }())
 
 
-
-  // Gate 7 - new
+  // Gate 7 - CURRENT - ES6 version
   // Funciton to fire when toAdd event is activated - creates mapped headings
+  (function mapHeadingsToGroups() {
+    let dataToChange;
+    let savedTimeStamp;
+    const currentTimeStamp = timeOf('originalData');
+
+    if (!newData || newData.mappedHeadings.length === 0) {
+      dataToChange = originalData.items;
+      savedTimeStamp = currentTimeStamp;
+    } else {
+      dataToChange = newData.mappedHeadings;
+      savedTimeStamp = newData.timeStamp;
+      if (currentTimeStamp === NaN) {
+      }
+      if (newData.timeStamp && currentTimeStamp && newData.timeStamp !== currentTimeStamp) {
+        changedData = null;
+        newData = null;
+        dataToChange = originalData.items;
+        savedTimeStamp = currentTimeStamp;
+      }
+    }
+
+    const mappedHeadings = dataToChange.map(heading => {
+      return {
+        "name": heading.name,
+        "group": (!newData || (newData && newData.timeStamp && currentTimeStamp && newData.timeStamp !== currentTimeStamp)) ? getGroup(heading.group.schemaName, heading) : getGroup(heading.group, heading)
+      }
+    });
+
+    function getGroup(groupName, heading) {
+      if (newData && newData.timeStamp && currentTimeStamp && newData.timeStamp !== currentTimeStamp) {
+        return groupName;
+      }
+      if (changedData && changedData.item.name === heading.name) {
+        return changedData.to.schemaName;
+      }
+      return groupName;
+    }
+
+    return {
+      "mappedHeadings": mappedHeadings,
+      "timeStamp": (savedTimeStamp || newData.timeStamp) ? savedTimeStamp : null
+    };
+  }())
+
+
+  // ES5 Version
   (function () {
     var dataToChange;
     var savedTimeStamp;
