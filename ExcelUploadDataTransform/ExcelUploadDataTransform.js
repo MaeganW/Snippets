@@ -39,19 +39,27 @@ export default {
           function next() {
             if (index < promisesArr.length) {
               const currentEvent = promisesArr[index++];
-              buildGeocodeGetRequest(currentEvent.venue_address).then(function (geo) {
-                currentEvent.venue_lat = geo.data.results[0].geometry.location.lat;
-                currentEvent.venue_lon = geo.data.results[0].geometry.location.lng;
-                // capture the good data
-                results.goodData.push(currentEvent);
-                next();
-              }).catch(function (err) {
-                _this.api.output("errorMsg", err.toString());
-                // capture the bad data
+
+              //check that address isn't an array
+              if (currentEvent.venue_address.constructor === Array) {
                 results.badData.push(currentEvent);
                 hasError = true;
                 next();
-              });
+              } else {
+                buildGeocodeGetRequest(currentEvent.venue_address).then(function (geo) {
+                  currentEvent.venue_lat = geo.data.results[0].geometry.location.lat;
+                  currentEvent.venue_lon = geo.data.results[0].geometry.location.lng;
+                  // capture the good data
+                  results.goodData.push(currentEvent);
+                  next();
+                }).catch(function (err) {
+                  _this.api.output("errorMsg", err.toString());
+                  // capture the bad data
+                  results.badData.push(currentEvent);
+                  hasError = true;
+                  next();
+                });
+              }
             } else {
               resolve(results);
             }
