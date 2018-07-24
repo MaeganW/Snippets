@@ -627,7 +627,7 @@
 
 
   // button toggle visibilty
-  (function () {
+  (function toggleButton() {
     var button = document.getElementById("map_button");
     button.style.display = "block";
 

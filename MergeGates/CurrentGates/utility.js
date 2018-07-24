@@ -1,3 +1,5 @@
+
+// resets table
 (function resetTable() {
   x0 = null;
   return x0;
@@ -5,6 +7,21 @@
 
 
 
+
+
+  // button toggle visibilty
+  (function toggleButton() {
+    var button = document.getElementById("map_button");
+    button.style.display = "block";
+
+    return x0;
+  }())
+
+
+
+
+  // Gate 7 - CURRENT - ES6 version
+  // Funciton to fire when toAdd event is activated - creates mapped headings
   (function mapHeadingsToGroups() {
     let dataToChange;
     let savedTimeStamp;
