@@ -84,8 +84,6 @@ export default {
   }
 };
 
-// TODO - Semantic UI message showing up wrong - change target
-// TODO - longer config overwrites shorter but not other way around - look at lengths
 
 
 // The following events have invalid dates/times. Please enter a valid date/time (ex: "7/4/2018" or "7/4/2018 6:00 PM").
